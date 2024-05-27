@@ -53,5 +53,23 @@ namespace net_il_mio_fotoalbum.Data
             db.Update(existingPhoto);
             db.SaveChanges();
         }
+        public static bool DeletePhoto(int id)
+        {
+            try
+            {
+                using PhotoAlbumContext db = new PhotoAlbumContext();
+                var photoToDelete = db.Photos.FirstOrDefault(p => p.Id == id);
+                if (photoToDelete == null)
+                    return false;
+
+                db.Remove(photoToDelete);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

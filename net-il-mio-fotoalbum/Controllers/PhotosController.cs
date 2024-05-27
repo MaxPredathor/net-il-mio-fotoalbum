@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
@@ -106,5 +107,17 @@ namespace net_il_mio_fotoalbum.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePhoto(int id)
+        {
+            var deleted = PhotoManager.DeletePhoto(id);
+            if (deleted)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+                return NotFound();
+        }
     }
 }
