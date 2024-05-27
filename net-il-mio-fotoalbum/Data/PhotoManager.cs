@@ -26,5 +26,32 @@ namespace net_il_mio_fotoalbum.Data
             db.Add(model.Photo);
             db.SaveChanges();
         }
+        public static Photo GetPhotoById(int id)
+        {
+            using PhotoAlbumContext db = new PhotoAlbumContext();
+            return db.Photos.Include(p => p.Categories)
+               .FirstOrDefault(m => m.Id == id);
+        }
+
+        public static void UpdateCategories(PhotoFormModel model, int id)
+        {
+            using PhotoAlbumContext db = new PhotoAlbumContext();
+            var existingPhoto = db.Photos
+                    .Include(p => p.Categories)
+                    .First(p => p.Id == id);
+
+            existingPhoto.Title = model.Photo.Title;
+            existingPhoto.Description = model.Photo.Description;
+            existingPhoto.IsVisible = model.Photo.IsVisible;
+            existingPhoto.Image = model.Photo.Image;
+
+            existingPhoto.Categories.Clear();
+            existingPhoto.Categories = db.Categories
+                .Where(c => model.SelectedCategories.Contains(c.Id))
+                .ToList();
+
+            db.Update(existingPhoto);
+            db.SaveChanges();
+        }
     }
 }
