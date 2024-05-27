@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Create Photo";
+    Layout = "HomeLayout";
+}
+
+@model PhotoFormModel
+
+<h1>Create Photo</h1>
+
+<h4>Photo</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Photo.Title" class="control-label"></label>
+                <input asp-for="Photo.Title" class="form-control" />
+                <span asp-validation-for="Photo.Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Photo.Description" class="control-label"></label>
+                <textarea asp-for="Photo.Description" class="form-control"></textarea>
+                <span asp-validation-for="Photo.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Photo.IsVisible" class="control-label"></label>
+                <input asp-for="Photo.IsVisible" class="form-control" />
+                <span asp-validation-for="Photo.IsVisible" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Categories</label>
+                <select asp-for="SelectedCategories" class="form-control" multiple>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedCategories" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
