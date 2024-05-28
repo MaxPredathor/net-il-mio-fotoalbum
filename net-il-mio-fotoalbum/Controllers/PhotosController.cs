@@ -13,6 +13,7 @@ namespace net_il_mio_fotoalbum.Controllers
             List<Photo> photos = PhotoManager.GetAllPhotos();
             return View("Index", photos);
         }
+        [Authorize(Roles = "ADMIN,USER")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -48,6 +49,7 @@ namespace net_il_mio_fotoalbum.Controllers
             viewModel.Categories = PhotoManager.GetAllCategories();
             return View(viewModel);
         }
+        [Authorize(Roles = "ADMIN,USER")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -106,7 +108,7 @@ namespace net_il_mio_fotoalbum.Controllers
             viewModel.Categories = PhotoManager.GetAllCategories();
             return View(viewModel);
         }
-
+        [Authorize(Roles = "ADMIN,USER")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePhoto(int id)
